@@ -7,29 +7,22 @@
   </div>
 
   <router-view
-    v-bind:currencies="currencies"
+    v-bind:currencies="allCurrencies"
   />
 </template>
 
 <script>
+  import { mapGetters, mapActions } from 'vuex'
+
   export default {
-    data() {
-      return {
-        currencies: [],
-      }
-    },
 
     async mounted() {
-      const response = await fetch('https://www.cbr-xml-daily.ru/daily_json.js')
-      const data = await response.json()
-      this.currencies = Object.values(data.Valute)
-
-      this.currencies.unshift({
-        CharCode: "RUB",
-        Name: "Российский рубль",
-        Value: 1,
-      })
+      this.fetchCurrencies()
     },
+
+    methods: mapActions(['fetchCurrencies']),
+
+    computed: mapGetters(['allCurrencies'])
   }
 </script>
 
