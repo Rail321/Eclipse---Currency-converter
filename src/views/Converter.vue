@@ -47,7 +47,7 @@
       </select>
       
       <input type="number" step="0.01" readonly
-        v-bind:value="targetCurrencyValueC"
+        v-bind:value="targetCurrencyValue"
       >
     </div>
   </div>
@@ -55,33 +55,25 @@
 
 <script>
   export default {
+    props: [
+      'currencies',
+    ],
+  
     data() {
       return {
-        currencies: [],
         sourceCurrency: {},
         sourceCurrencyValue: 1,
         targetCurrency: {},
-        targetCurrencyValue: 0,
       }
     },
 
     async mounted() {
-      const response = await fetch('https://www.cbr-xml-daily.ru/daily_json.js')
-      const data = await response.json()
-      this.currencies = Object.values(data.Valute)
-
-      this.currencies.unshift({
-        CharCode: "RUB",
-        Name: "Российский рубль",
-        Value: 1,
-      })
-
       this.sourceCurrency = this.currencies.find(currency => currency.CharCode === 'USD')
       this.targetCurrency = this.currencies.find(currency => currency.CharCode === 'RUB')
     },
 
     computed: {
-      targetCurrencyValueC() {
+      targetCurrencyValue() {
         return (this.sourceCurrency.Value * this.sourceCurrencyValue / this.targetCurrency.Value).toFixed(2)
       }
     }

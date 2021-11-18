@@ -19,8 +19,6 @@
     v-model="searchString"
   >
 
-  <!-- <div><pre>{{currencies}}</pre></div> -->
-
   <div
     v-for="(currency, key) of filteredCurrencies"
     v-bind:key="key"
@@ -61,24 +59,27 @@
 
 <script>
   export default {
+    props: [
+      'currencies',
+    ],
+  
     data() {
       return {
-        currencies: [],
         searchString: '',
         selectedCurrency: 'RUB',
       }
     },
 
     async mounted() {
-      const response = await fetch('https://www.cbr-xml-daily.ru/daily_json.js')
-      const data = await response.json()
-      this.currencies = Object.values(data.Valute)
+      // const response = await fetch('https://www.cbr-xml-daily.ru/daily_json.js')
+      // const data = await response.json()
+      // this.currencies = Object.values(data.Valute)
 
-      this.currencies.unshift({
-        CharCode: "RUB",
-        Name: "Российский рубль",
-        Value: 1,
-      })
+      // this.currencies.unshift({
+      //   CharCode: "RUB",
+      //   Name: "Российский рубль",
+      //   Value: 1,
+      // })
     },
 
     methods: {
@@ -99,5 +100,5 @@
         })
       },
     },
-  }
+}
 </script>

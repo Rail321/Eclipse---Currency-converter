@@ -5,9 +5,33 @@
     
     <router-link to="/converter">Converter</router-link>
   </div>
-  
-  <router-view/>
+
+  <router-view
+    v-bind:currencies="currencies"
+  />
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        currencies: [],
+      }
+    },
+
+    async mounted() {
+      const response = await fetch('https://www.cbr-xml-daily.ru/daily_json.js')
+      const data = await response.json()
+      this.currencies = Object.values(data.Valute)
+
+      this.currencies.unshift({
+        CharCode: "RUB",
+        Name: "Российский рубль",
+        Value: 1,
+      })
+    },
+  }
+</script>
 
 <style>
 #app {

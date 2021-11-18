@@ -5,12 +5,14 @@ const routes = [
   {
     path: '/',
     name: 'Currencies',
-    component: Currencies
+    component: Currencies,
+    props: true,
   },
   {
     path: '/converter',
     name: 'Converter',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Converter.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Converter.vue'),
+    props: true,
   }
 ]
 
