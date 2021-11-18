@@ -1,61 +1,79 @@
 <template>
-  <div>
-    <div class="about">
-      <h1>Currencies</h1>
-    </div>
+  <div class="pt-3 pb-5">
+    <b-row>
+      <b-col class="col-12 col-lg-6 pb-1">
+        <b-form-select
+          v-model="selectedCurrency"
+        >
+          <b-form-select-option
+            v-for="(currency, key) of currencies"
+            v-bind:key="key"
+            v-bind:value="currency.CharCode"
+          >
+            <span>{{ currency.Name }}</span>
+          </b-form-select-option>
+        </b-form-select>
+      </b-col>
+      <b-col class="col-12 col-lg-6 pb-1">
+        <b-form-input placeholder="Поиск..."
+          v-model="searchString"
+        ></b-form-input>
+      </b-col>
+    </b-row>
 
-    <select
-      v-model="selectedCurrency"
-    >
-      <option
-        v-for="(currency, key) of currencies"
+    <b-row class="pt-3">
+      <b-col class="col-12 col-lg-6"
+        v-for="(currency, key) of filteredCurrencies.filter(currency => currency.CharCode !== selectedCurrency)"
         v-bind:key="key"
-        v-bind:value="currency.CharCode"
       >
-        {{ currency.Name }}
-      </option>
-    </select>
+        <div class="bg-light mt-3 rounded-lg py-3 px-3 shadow">
+          <p class="currency-name text-black-50 mb-3">
+            <span>{{ currency.Name }}</span>
+          </p>
 
-    <input type="text"
-      v-model="searchString"
-    >
+          <div class="font-weight-bolder d-flex">
+            <div class="flex-grow-1 mx-n1">
+              <div class="d-flex flex-nowrap">
+                <div class="flex-shrink-1 px-1">
+                  <span>1 {{ currency.CharCode }}</span>
+                </div>
 
-    <div
-      v-for="(currency, key) of filteredCurrencies"
-      v-bind:key="key"
-    >
+                <div class="flex-shrink-1 px-2">
+                  <b-icon-arrow-left-right
+                    variant="secondary"
+                  ></b-icon-arrow-left-right>
+                </div>
 
-      <div
-        v-if="currency.CharCode !== selectedCurrency"
-      >
-        <hr/>
-      
-        <div>
-          <div>{{ currency.Name }}</div>
-
-          <div class="row">
-            <div>
-              1 {{ currency.CharCode }}
+                <div class="flex-grow-1 px-1">
+                  <span>{{ convert(currency.Value) }} {{ selectedCurrency }}</span>
+                </div>
+              </div>
             </div>
 
-            <div>
-              {{ convert(currency.Value) }} {{ selectedCurrency }}
+            <div class="flex-shrink-1 mx-n1">
+              <div class="d-flex flex-nowrap"
+                v-if="currency.Previous"
+                v-bind:class="{ 'text-danger': currency.Value > currency.Previous, 'text-success': currency.Value < currency.Previous }"
+              >
+                <div class="flex-shrink-1 px-1">
+                  <b-icon-arrow-up
+                    v-if="currency.Value > currency.Previous"
+                  ></b-icon-arrow-up>
+                  <b-icon-arrow-up
+                    v-else-if="currency.Value < currency.Previous"
+                    rotate="180"
+                  ></b-icon-arrow-up>
+                </div>
+
+                <div class="flex-shrink-1 px-1">
+                  <span>{{ Math.abs((currency.Value - currency.Previous) / currency.Value).toFixed(4) }}</span>
+                </div>
+              </div>
             </div>
-
-            <template v-if="currency.Previous">
-
-              <div>
-                {{ currency.Value >= currency.Previous ? 'Вырос' : 'Упал' }}
-              </div>
-
-              <div>
-                {{ Math.abs((currency.Value - currency.Previous) / currency.Value).toFixed(4) }}
-              </div>
-            </template>
           </div>
         </div>
-      </div>
-    </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
 

@@ -1,16 +1,29 @@
 <template>
-  <div>
-    <div id="nav">
+  <div class="app d-flex flex-column">
+    <b-container class="bv-example-row">
+      <b-nav>
+        <b-nav-item
+          to="/"
+        >
+          <span>Валюты</span>
+        </b-nav-item>
 
-      <router-link to="/">Currencies</router-link> |
-      
-      <router-link to="/converter">Converter</router-link>
+        <b-nav-item
+          to="/converter"
+        >
+          <span>Конвертер</span>
+        </b-nav-item>
+      </b-nav>
+    </b-container>
+
+    <div class="bg-primary flex-grow-1">
+      <b-container>
+        <router-view
+          v-if="allCurrencies.length"
+          v-bind:currencies="allCurrencies"
+        />
+      </b-container>
     </div>
-
-    <router-view
-      v-if="allCurrencies.length"
-      v-bind:currencies="allCurrencies"
-    />
   </div>
 </template>
 
@@ -32,33 +45,11 @@
 <style lang="scss">
   @import "~@/assets/scss/vendors/bootstrap-vue/index";
 
-  #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
+  .app {
+    min-height: 100vh;
   }
 
-  #nav {
-    padding: 30px;
-  }
-
-  #nav a {
-    font-weight: bold;
-    color: #2c3e50;
-  }
-
-  #nav a.router-link-exact-active {
-    color: #42b983;
-  }
-
-  .row {
-    display: flex;
-    justify-content: center;
-  }
-
-  .row > div {
-    padding: 10px;
+  .currency-name {
+    line-height: 1.15;
   }
 </style>
