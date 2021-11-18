@@ -1,14 +1,17 @@
 <template>
-  <div id="nav">
+  <div>
+    <div id="nav">
 
-    <router-link to="/">Currencies</router-link> |
-    
-    <router-link to="/converter">Converter</router-link>
+      <router-link to="/">Currencies</router-link> |
+      
+      <router-link to="/converter">Converter</router-link>
+    </div>
+
+    <router-view
+      v-if="allCurrencies.length"
+      v-bind:currencies="allCurrencies"
+    />
   </div>
-
-  <router-view
-    v-bind:currencies="allCurrencies"
-  />
 </template>
 
 <script>
@@ -26,34 +29,36 @@
   }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<style lang="scss">
+  @import "~@/assets/scss/vendors/bootstrap-vue/index";
 
-#nav {
-  padding: 30px;
-}
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  #nav {
+    padding: 30px;
+  }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+  #nav a {
+    font-weight: bold;
+    color: #2c3e50;
+  }
 
-.row {
-  display: flex;
-  justify-content: center;
-}
+  #nav a.router-link-exact-active {
+    color: #42b983;
+  }
 
-.row > div {
-  padding: 10px;
-}
+  .row {
+    display: flex;
+    justify-content: center;
+  }
+
+  .row > div {
+    padding: 10px;
+  }
 </style>

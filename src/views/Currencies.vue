@@ -1,56 +1,58 @@
 <template>
-  <div class="about">
-    <h1>Currencies</h1>
-  </div>
+  <div>
+    <div class="about">
+      <h1>Currencies</h1>
+    </div>
 
-  <select
-    v-model="selectedCurrency"
-  >
-    <option
-      v-for="(currency, key) of currencies"
-      v-bind:key="key"
-      v-bind:value="currency.CharCode"
+    <select
+      v-model="selectedCurrency"
     >
-      {{ currency.Name }}
-    </option>
-  </select>
+      <option
+        v-for="(currency, key) of currencies"
+        v-bind:key="key"
+        v-bind:value="currency.CharCode"
+      >
+        {{ currency.Name }}
+      </option>
+    </select>
 
-  <input type="text"
-    v-model="searchString"
-  >
-
-  <div
-    v-for="(currency, key) of filteredCurrencies"
-    v-bind:key="key"
-  >
+    <input type="text"
+      v-model="searchString"
+    >
 
     <div
-      v-if="currency.CharCode !== selectedCurrency"
+      v-for="(currency, key) of filteredCurrencies"
+      v-bind:key="key"
     >
-      <hr/>
-    
-      <div>
-        <div>{{ currency.Name }}</div>
 
-        <div class="row">
-          <div>
-            1 {{ currency.CharCode }}
-          </div>
+      <div
+        v-if="currency.CharCode !== selectedCurrency"
+      >
+        <hr/>
+      
+        <div>
+          <div>{{ currency.Name }}</div>
 
-          <div>
-            {{ convert(currency.Value) }} {{ selectedCurrency }}
-          </div>
-
-          <template v-if="currency.Previous">
-
+          <div class="row">
             <div>
-              {{ currency.Value >= currency.Previous ? 'Вырос' : 'Упал' }}
+              1 {{ currency.CharCode }}
             </div>
 
             <div>
-              {{ Math.abs((currency.Value - currency.Previous) / currency.Value).toFixed(4) }}
+              {{ convert(currency.Value) }} {{ selectedCurrency }}
             </div>
-          </template>
+
+            <template v-if="currency.Previous">
+
+              <div>
+                {{ currency.Value >= currency.Previous ? 'Вырос' : 'Упал' }}
+              </div>
+
+              <div>
+                {{ Math.abs((currency.Value - currency.Previous) / currency.Value).toFixed(4) }}
+              </div>
+            </template>
+          </div>
         </div>
       </div>
     </div>
@@ -59,9 +61,12 @@
 
 <script>
   export default {
-    props: [
-      'currencies',
-    ],
+    props: {
+      currencies: {
+        type: Array,
+        required: true,
+      }
+    },
   
     data() {
       return {

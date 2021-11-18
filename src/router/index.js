@@ -1,5 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 import Currencies from '../views/Currencies.vue'
+
+Vue.use(VueRouter)
 
 const routes = [
   {
@@ -11,13 +14,14 @@ const routes = [
   {
     path: '/converter',
     name: 'Converter',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Converter.vue'),
+    component: () => import('../views/Converter.vue'),
     props: true,
   }
 ]
 
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
   routes
 })
 
