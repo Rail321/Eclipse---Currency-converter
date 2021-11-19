@@ -18,8 +18,28 @@
 
     <div class="bg-primary flex-grow-1">
       <b-container>
+        <div class="text-center text-light py-5"
+          v-if="!isCurrenciesLoaded"
+        >
+          <b-spinner
+            label="Loading..."
+          ></b-spinner>
+        </div>
+
+        <div class="text-center text-light py-5"
+          v-else-if="isCurrenciesLoadingError"
+        >
+          <span>Ошибка получения курса валют</span>
+        </div>
+
+        <div class="text-center text-light py-5"
+          v-else-if="!allCurrencies.length"
+        >
+          <span>Нету курсов валют для отображения</span>
+        </div>
+
         <router-view
-          v-if="allCurrencies.length"
+          v-else
           v-bind:currencies="allCurrencies"
         />
       </b-container>
@@ -31,14 +51,20 @@
   import { mapGetters, mapActions } from 'vuex'
 
   export default {
+    data() {
+      return {
+        currenciesLoading: true,
+      }
+    },
 
     async mounted() {
       this.fetchCurrencies()
+      this.currenciesLoading = false
     },
 
-    methods: mapActions(['fetchCurrencies']),
+    methods: mapActions([ 'fetchCurrencies' ]),
 
-    computed: mapGetters(['allCurrencies'])
+    computed: mapGetters(['allCurrencies', 'isCurrenciesLoaded', 'isCurrenciesLoadingError'])
   }
 </script>
 
