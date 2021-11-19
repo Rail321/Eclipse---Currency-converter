@@ -25,6 +25,8 @@
 
               <b-col class="col-12 col-sm-6 pb-2 px-1">
                 <b-form-input
+                  type="number"
+                  step="0.01"
                   v-model="sourceCurrencyValue"
                 ></b-form-input>
               </b-col>
@@ -106,6 +108,16 @@
       replaceCurrencies() {
         [this.sourceCurrency, this.targetCurrency] = [this.targetCurrency, this.sourceCurrency]
         // this.sourceCurrencyValue = 1
+      },
+
+      validateSourceCurrencyValue() {
+        this.sourceCurrencyValue = Math.abs(+(+this.sourceCurrencyValue).toFixed(2))
+      }
+    },
+
+    watch: {
+      sourceCurrencyValue() {
+        this.validateSourceCurrencyValue()
       }
     },
   }
