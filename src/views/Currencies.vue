@@ -25,7 +25,7 @@
       <div class="text-center text-light py-2"
         v-if="!filteredCurrencies.length"
       >
-        <span>Ничего не найдено</span>
+        <span>Ничего не найденоf</span>
       </div>
 
       <div
@@ -68,10 +68,10 @@
                     <div class="flex-shrink-1 px-1">
                       <b-icon-arrow-up
                         v-if="currency.Value > currency.Previous"
+                        rotate="180"
                       ></b-icon-arrow-up>
                       <b-icon-arrow-up
                         v-else-if="currency.Value < currency.Previous"
-                        rotate="180"
                       ></b-icon-arrow-up>
                     </div>
 
